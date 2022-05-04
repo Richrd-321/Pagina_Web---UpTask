@@ -8,14 +8,11 @@ module.exports = function() {
     // Ruta para el home
     router.get('/', proyectoController.proyectosHome);
 
+    router.get('/nuevo-proyecto', proyectoController.formularioProyecto);
+
     router.get('/nosotros', (req, res) => {
         res.render('nosotros');
     })
 
     return router;
 }
-
-
-
-
-
