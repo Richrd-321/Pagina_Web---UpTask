@@ -3,12 +3,16 @@ const routes = require('./routes');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-// Crerar la conexion a la base de datso
+// Crear la conexion a la base de datso
 const db = require('./config/db');
 
-db.authenticate()
+// Importar el modelo
+require('./models/Proyectos');
+
+db.sync()
+//db.authenticate()
     .then(() => console.log('Conectado al Servidor'))
-    .catch(error => console.log(error))
+    .catch(error => console.log(error));
 
 // Crear una app de express
 const app = express();

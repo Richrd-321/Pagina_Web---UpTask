@@ -3,9 +3,9 @@ const { Sequelize } = require('sequelize');
 
 // Option 3: Passing parameters separately (other dialects)
 const db = new Sequelize('upTasknode', 'root', 'root', {
-    host: 'localhost',
+    host: '127.0.0.1',
     dialect: 'mysql',
-    port: '3306',
+    port: '3307',
     operatorsAliases: false,
     define: {
         timestamps: false
