@@ -21,22 +21,21 @@ html(lang="en")
                     a(href="/nuevo-proyecto" class="boton") New Proyect                     
                         span +
 
+                
                 .panel.lista-proyectos 
 
                     h2 Proyectos
 
                     ul#proyectos.proyectos
-                        li
-                            a(href="#") Diseño de Tienda Virtual 
+                        if(proyectos.length)
+                            each proyecto in proyectos 
+                                li
+                                    a(href=`/proyectos/${proyecto.url}`)= proyecto.nombre  
 
-                        li
-                            a(href="#") Diseño de Nuevo Blog
-
-                        li
-                            a(href="#") Diseño de Logotipo 
+                                
                         
                         
 
             block contenido
-
-        
+            //- pre= vardump(proyectos)
+            
