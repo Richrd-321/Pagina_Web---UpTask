@@ -24,20 +24,28 @@ btnEliminar.addEventListener('click', e => {
             // Enviar patición a axios
             const url = `${location.origin}/proyectos/${urlProyecto}`;
 
-            axios.delete(url, { params: urlProyecto })
+            axios.delete(url, { params: {urlProyecto} })
                 .then(function (respuesta) {
-                    console.log(respuesta)
-                        Swal.fire(
-                            '¡Proyecto Eliminado!',
-                            'El proyecto ha sido Eliminado',
-                            'success'
-                        );
+                    console.log(respuesta);
 
-                        // redireccionar al inicio
-                        setTimeout(() => {
-                            window.location.href = '/'
-                        }, 3000);
-                });
+                    Swal.fire(
+                        '¡Proyecto Eliminado!',
+                        'El proyecto ha sido Eliminado',
+                        'success'
+                    );
+
+                    // redireccionar al inicio
+                    setTimeout(() => {
+                        window.location.href = '/'
+                    }, 3000);
+                })
+                .catch(() => {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Hubo un error',
+                        text: 'No se pudo eliminar el Proyecto'
+                    })
+                })
         }
     })
 })
