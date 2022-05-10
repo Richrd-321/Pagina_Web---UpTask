@@ -10,6 +10,8 @@ block contenido
 
         if errores 
             each error in errores 
-                .alerta=error.texto 
+                //-.alerta= error.texto 
+                p.alerta= error.message 
+
         +crearProyecto(proyecto)
         
