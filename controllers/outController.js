@@ -41,7 +41,7 @@ exports.enviarToken = async (req, res) => {
     }
 
     // Usuario existe
-    usuario.token= crypto.randomBytes(20).toString('hex');
+    usuario.token = crypto.randomBytes(20).toString('hex');
     usuario.expiracion = Date.now() + 3600000;
 
     // Guardarlos en la base de datos
@@ -54,7 +54,7 @@ exports.enviarToken = async (req, res) => {
     
 }
 
-exports.resetPasswordForm = async (req, res) => {
+exports.validarToken = async (req, res) => {
     const usuario = await Usuarios.findOne({
         where: {
             token: req.params.token
@@ -72,6 +72,9 @@ exports.resetPasswordForm = async (req, res) => {
     res.render('resetPassword', {
         nombrePagina : 'Reestablecer Contraseña'
     })
-    
+}
 
+// Cambia el password por uno nuevo
+exports.actualizarPassword = async (req, res) => {
+    console.log(req.params.token);
 }
