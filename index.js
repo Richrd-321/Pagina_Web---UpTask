@@ -5,14 +5,15 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
-const cookie = require('cookie-parser');
+const cookieParser = require('cookie-parser');
+const passport = require('./config/passport');
 
 // Helpers con algunas funciones
 const helpers = require('./helpers');
 
 // Crear la conexion a la base de datso
 const db = require('./config/db');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 
 // Importar el modelo
 require('./models/Proyectos');
@@ -33,9 +34,8 @@ app.use(express.static('public'));
 // Habilitar Pug
 app.set('view engine', 'pug');
 
-
 // Habilitar bodyParser para leer datos del formulario
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Agregamos express validator a toda la aplicación
 app.use(expressValidator());
@@ -54,6 +54,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+// Use el Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Pasar var dump a la aplicacion
 app.use((req, res, next) => {

@@ -6,7 +6,7 @@ html(lang="en")
 
         header.barra 
             h1 UpTask - Administrador de Proyectos
-            a(href='#') Cerrar Sesión
+            a(href='/cerrar-sesion') Cerrar Sesión
 
             
         main.contenedor
@@ -15,21 +15,14 @@ html(lang="en")
                     a(href="/nuevo-proyecto" class="boton") New Proyect                     
                         span +
 
-                
                 .panel.lista-proyectos 
-
                     h2 Proyectos
-
                     ul#proyectos.proyectos
                         if(proyectos.length)
                             each proyecto in proyectos 
                                 li
-                                    a(href=`/proyectos/${proyecto.url}`)= proyecto.nombre  
-
-                                
-                       
-                        
-
+                                    a(href=`/proyectos/${proyecto.url}`)= proyecto.nombre                      
+    
             block contenido
             //- pre= vardump(proyectos)
         script(src="/dist/bundle.js")  
