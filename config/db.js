@@ -5,8 +5,8 @@ const { Sequelize } = require('sequelize');
 const db = new Sequelize('upTasknode', 'root', 'root', {
     host: '127.0.0.1',
     dialect: 'mysql',
-    // port: '3307', // DB en la Oficina
-    port: '3306', // DB en la Casa
+    port: '3307', // DB en la Oficina
+    //port: '3306', // DB en la Casa
     operatorsAliases: false,
     define: {
         timestamps: false

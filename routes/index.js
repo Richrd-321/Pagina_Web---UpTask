@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Importar express validator
 const { body } = require('express-validator/check');
+
 // Importar el controlador
 const proyectoController = require('../controllers/proyectosController');
 const tareasController = require('../controllers/tareasController');
@@ -77,5 +78,11 @@ module.exports = function() {
 
     // Cerrar Sesion
     router.get('/cerrar-sesion', outController.cerrarSesion);
+
+    // Restablecer Contraseña
+    router.get('/reestablecer', usuariosController.formRestablecerPassword);
+    router.post('/reestablecer', outController.enviarToken);
+    router.get('/reestablecer/:token', outController.resetPasswordForm);
+    
     return router;
 }
