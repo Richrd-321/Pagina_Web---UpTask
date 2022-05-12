@@ -1,7 +1,7 @@
 doctype html
 html(lang="en")
     head
-        include partials/header 
+        include partials/header
     body.login 
         .contenedor-formulario
             h1= nombrePagina 
@@ -14,13 +14,15 @@ html(lang="en")
                             .alerta(class=`${categoria}`)
                                 p= error 
 
-            form.caja-login(method= 'POST' accion="/reestablecer") 
+            form.caja-login(method="POST" accion="/reestablecer") 
                 .campo 
                     label(for="email") E-mail: 
                     input(type="text" name="email" placeholder="Tu Email")
-
                 .campo.enviar 
                     input.boton(type="submit" value="Reestablecer Password")
-
                 .campo.acciones 
-                    a(href="/iniciar-sesion") Ya lo recordé, volver a Login 
+                    a(href="/iniciar-sesion") Ya lo recordé, volver a Login
+
+
+         
+     

@@ -1,6 +1,10 @@
 const passport = require('passport');
 const Usuarios = require('../models/Usuarios');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const crypto = require('crypto');
+const { redirect } = require('express/lib/response');
+const bcrypt = require('bcrypt-nodejs');
 
 // Autenticar el usuario
 exports.autenticarUsuario = passport.authenticate('local', {
@@ -38,19 +42,24 @@ exports.enviarToken = async (req, res) => {
     if(!usuario) {
         req.flash('error', 'No existe esa cuenta');
         res.redirect('/reestablecer');
+        //req.flash('error', 'No existe esa cuenta');
+        //res.render('reestablecer', {
+        //    nombrePagina: 'Reestablecer tu contraseña',
+        //    mensajes: req.flash()
+        //})
     }
 
     // Usuario existe
     usuario.token = crypto.randomBytes(20).toString('hex');
     usuario.expiracion = Date.now() + 3600000;
 
-    // Guardarlos en la base de datos
+    // Guardarlos en la base de datos 
     await usuario.save();
 
     // url de reset
     const resetUrl = `http://${req.headers.host}/reestablecer/${usuario.token}`;
 
-    //console.log(resetUrl);
+    console.log(resetUrl);
     
 }
 
@@ -58,9 +67,10 @@ exports.validarToken = async (req, res) => {
     const usuario = await Usuarios.findOne({
         where: {
             token: req.params.token
-    
         }
     });
+
+    console.log(usuario);
 
     // Si no encuentra al usuario
     if(!usuario) {
@@ -76,5 +86,32 @@ exports.validarToken = async (req, res) => {
 
 // Cambia el password por uno nuevo
 exports.actualizarPassword = async (req, res) => {
-    console.log(req.params.token);
+
+    // Verifica el token valido pero tambien la fecha de expiracion
+
+    const usuario = await Usuarios.findOne({
+        where: {
+            token: req.params.token,
+            expiracion: {
+                [Op.gte] : Date.now()
+            }
+        }
+    });
+
+    // Verificamos si el usuario existe
+    if(!usuario) {
+        req.flash('error', 'No Válido');
+        res,redirect('/reestablecer');
+    }
+
+    // Hashear el nuevo password
+    usuario.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+    usuario.token = null;
+    usuario.expiracion = null;
+
+    // Guardamos el nuevo password
+    await usuario.save();
+
+    req.flash('correcto', 'Ty password se ha modificado correctamente');
+    res,redirect('/iniciar-sesion');
 }
